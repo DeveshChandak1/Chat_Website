@@ -1,4 +1,3 @@
-import { FaPlus } from "react-icons/fa";
 import NewDM from "./components/new-dm";
 import ProfileInfo from "./components/profile-info";
 import { useEffect } from "react";

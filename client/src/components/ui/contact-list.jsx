@@ -23,7 +23,7 @@ const ContactList = ({ contacts, isChannel = false }) => {
 
   return (
     <div className="mt-5">
-      {contacts.map((contact,index) => (
+      {contacts.map((contact, index) => (
         <div
           key={contact._id || index}
           className={`pl-10 py-2 transition-all duration-300 cursor-pointer ${
@@ -68,7 +68,11 @@ const ContactList = ({ contacts, isChannel = false }) => {
             {isChannel ? (
               <span>{contact.name}</span>
             ) : (
-              <span>{`${contact.firstName} ${contact.lastName}`}</span>
+              <span>
+                {contact.firstName
+                  ? `${contact.firstName} ${contact.lastName}`
+                  : contact.email}
+              </span>
             )}
           </div>
         </div>

@@ -13,7 +13,7 @@ const MessageBar = () => {
   const fileInputRef = useRef();
   const { selectedChatType, selectedChatData, userInfo } = useAppStore();
   const socket = useSocket();
-  const [message, setmessage] = useState("");
+  const [message, setMessage] = useState("");
   const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const MessageBar = () => {
   }, [emojiRef]);
 
   const handleAddEmoji = (emoji) => {
-    setmessage((msg) => msg + emoji.emoji);
+    setMessage((msg) => msg + emoji.emoji);
   };
 
   const handleSendMessage = async () => {
@@ -50,7 +50,7 @@ const MessageBar = () => {
         channelId: selectedChatData._id,
       });
     }    
-    setmessage("");
+    setMessage("");
   };
 
   const handleAttachmentClick = () => {
@@ -103,7 +103,7 @@ const MessageBar = () => {
           className="flex-1 p-5 bg-transparent rounded-md focus:border-none focus:outline-none"
           placeholder="Enter Message"
           value={message}
-          onChange={(e) => setmessage(e.target.value)}
+          onChange={(e) => setMessage(e.target.value)}
         />
         <button
           className="text-neutral-500 focus:border-none focus:outline-none focus:text-white duration-300 transition-all"

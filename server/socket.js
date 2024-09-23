@@ -62,8 +62,7 @@ const setupSocket = (server) => {
     });
 
     const channel = await Channel.findById(channelId)
-      .populate("members")
-      .populate("admin");
+      .populate("members");
 
     const finalData = { ...messageData._doc, channelId: channel._id };
 
@@ -71,15 +70,13 @@ const setupSocket = (server) => {
       channel.members.forEach((member) => {
         const memberSocketId = userSocketMap.get(member._id.toString());
         if (memberSocketId) {
-            io.to(memberSocketId).emit("recieve-channel-message", finalData);
-          }          
+          io.to(memberSocketId).emit("recieve-channel-message", finalData);
+        }
       });
 
-      if (channel.admin && channel.admin._id) {
-        const adminSocketId = userSocketMap.get(channel.admin._id.toString());
-        if (adminSocketId) {
-          io.to(adminSocketId).emit("recieve-channel-message", finalData);
-        }
+      const adminSocketId = userSocketMap.get(channel.admin._id.toString());
+      if (adminSocketId) {
+        io.to(adminSocketId).emit("recieve-channel-message", finalData);
       }
     }
   };

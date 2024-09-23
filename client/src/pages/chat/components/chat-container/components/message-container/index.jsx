@@ -1,6 +1,6 @@
 import { apiClient } from "@/lib/api-client";
 import { useAppStore } from "@/store";
-import { GET_ALL_MESSAGES_ROUTE, HOST } from "@/utils/constants";
+import { GET_ALL_MESSAGES_ROUTE, GET_CHANNEL_MESSAGES, HOST } from "@/utils/constants";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { MdFolderZip } from "react-icons/md";
@@ -42,9 +42,25 @@ const MessageContainer = () => {
       }
     };
 
-    if (selectedChatType === "contact" && selectedChatData._id) {
-      getMessages();
+    const getChannelMessages = async () =>{
+      try {
+        const response = await apiClient.get(
+          `${GET_CHANNEL_MESSAGES}/${selectedChatData._id}`,
+          { withCredentials: true }
+        );
+
+        if (response.data.messages) {
+          // console.log("Fetched Messages:", response.data.messages);
+          setSelectedChatMessages(response.data.messages);
+        }
+      } catch (error) {
+        console.log({ error });
+      }
     }
+
+    if (selectedChatType === "contact" && selectedChatData._id) getMessages();
+    else if(selectedChatType==="channel" ) getChannelMessages();
+    
   }, [selectedChatData, selectedChatType, setSelectedChatMessages]);
 
   useEffect(() => {
@@ -159,14 +175,14 @@ const MessageContainer = () => {
   const renderChannelMessages = (message) => {
     return (
       <div
-        className={`${
-          message.sender._id === userInfo._id ? "text-left" : "text-right"
+        className={`mt-5 ${
+          message.sender._id !== userInfo.id ? "text-left" : "text-right"
         }`}
       >
         {message.messageType === "text" && (
           <div
             className={`${
-              message.sender._id === userInfo._id
+              message.sender._id === userInfo.id
                 ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50"
                 : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"
             } border inline-block p-4 rounded my-1 max-w-[50%] break-words ml-9`}
@@ -177,7 +193,7 @@ const MessageContainer = () => {
         {message.messageType === "file" && (
         <div
           className={`${
-            message.sender._id === userInfo._id
+            message.sender._id === userInfo.id
               ? "bg-[#8417ff]/5 text-[#8417ff]/90 border-[#8417ff]/50"
               : "bg-[#2a2b33]/5 text-white/80 border-[#ffffff]/20"
           } border inline-block p-4 rounded my-1 max-w-[50%] break-words`}
