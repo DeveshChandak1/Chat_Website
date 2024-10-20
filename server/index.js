@@ -8,6 +8,8 @@ import contactsRoutes from "./routes/ContactsRoutes.js"
 import setupSocket from "./socket.js"
 import messagesRoutes from "./routes/MessagesRoutes.js"
 import channelRoutes from "./routes/ChannelRoute.js"
+import gameRoutes from "./routes/games.js";
+
 
 dotenv.config();
 
@@ -32,6 +34,7 @@ app.use("/api/auth",authRoutes);
 app.use("/api/contacts",contactsRoutes);
 app.use("/api/messages",messagesRoutes);
 app.use("/api/channel",channelRoutes);
+app.use("/api/games", gameRoutes);
 
 
 const server = app.listen(port,()=>{

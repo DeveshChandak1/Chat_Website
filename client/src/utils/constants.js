@@ -22,3 +22,6 @@ export const CHANNEL_ROUTES = "api/channel";
 export const CREATE_CHANNEL_ROUTE =  `${CHANNEL_ROUTES}/create-channel`;
 export const GET_USER_CHANNEL_ROUTE =`${CHANNEL_ROUTES}/get-user-channels`;
 export const GET_CHANNEL_MESSAGES = `${CHANNEL_ROUTES}/get-channel-messages`;
+
+export const GAME_ROUTES = "api/games";
+export const ADD_ROUTE = `${GAME_ROUTES}/add`;
